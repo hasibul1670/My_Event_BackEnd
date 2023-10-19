@@ -38,8 +38,10 @@ const getAllCows = catchAsync(async (req: Request, res: Response) => {
 const getSingleCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await CowService.getSingleCow(id);
+
   sendCowResponse(res, 'Single Cow is found', result);
 });
+
 //Update Cow
 const updateCow = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
