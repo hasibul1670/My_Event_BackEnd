@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import { StatusCodes } from 'http-status-codes';
 import config from '../../../config';
-import { ApiError } from '../../../handlingError/ApiError';
 import { buildWhereConditions } from '../../../helpers/buildWhereCondition';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
@@ -13,6 +12,7 @@ import { Admin } from '../admin/admin.model';
 import { studentSearchableFields } from './student.constant';
 import { IStudent, IStudentFilters } from './student.interface';
 import { Student } from './student.model';
+import ApiError from '../../../handlingError/ApiError';
 
 const getAllStudents = async (
   filters: IStudentFilters,
