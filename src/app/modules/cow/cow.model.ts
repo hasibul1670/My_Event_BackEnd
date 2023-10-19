@@ -72,5 +72,4 @@ CowSchema.pre('save', async function (next) {
   next();
 });
 
-
 export const Cow = model<ICow, CowModel>('Cow', CowSchema);

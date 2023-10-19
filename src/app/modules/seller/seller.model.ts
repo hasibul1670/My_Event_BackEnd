@@ -1,4 +1,4 @@
-import  { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { ISeller, SellerModel } from './seller.interface';
 
 export const SellerSchema = new Schema<ISeller, SellerModel>(
@@ -19,7 +19,7 @@ export const SellerSchema = new Schema<ISeller, SellerModel>(
           required: true,
         },
       },
-      required: true,    
+      required: true,
     },
     phoneNumber: {
       type: String,

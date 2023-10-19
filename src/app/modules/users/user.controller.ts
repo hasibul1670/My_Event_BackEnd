@@ -68,7 +68,6 @@ const getAllOrders = catchAsync(async (req: Request, res: Response) => {
   sendUserResponse(res, ' All Order are fetched successfully', result);
 });
 
-
 export const UserController = {
   createSeller,
   orderCow,

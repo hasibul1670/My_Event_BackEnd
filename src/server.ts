@@ -11,15 +11,15 @@ async function server() {
       console.log(`listening on port ${config.port}`);
     });
   } catch (err) {
-   console.error('Failed to connect database', err);
+    console.error('Failed to connect database', err);
   }
 
   process.on('unhandledRejection', err => {
-   console.error(err);
+    console.error(err);
 
     if (serverStatus) {
       serverStatus.close(() => {
-       console.error('server closed due to Unhandled Rejection.... ', err);
+        console.error('server closed due to Unhandled Rejection.... ', err);
         process.exit(1);
       });
     } else {
@@ -31,7 +31,7 @@ async function server() {
 server();
 
 process.on('uncaughtException', err => {
- console.error('server closed due to Unhandled Exception.... ', err);
+  console.error('server closed due to Unhandled Exception.... ', err);
   process.exit(1);
 });
 

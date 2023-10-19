@@ -1,10 +1,7 @@
 import express from 'express';
 import { BuyerController } from './buyer.controller';
 
-
-
 const router = express.Router();
-
 
 router.get('/:id', BuyerController.getSingleBuyer);
 router.delete('/:id', BuyerController.deleteBuyer);

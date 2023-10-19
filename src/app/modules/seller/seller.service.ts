@@ -1,5 +1,5 @@
-import { ISeller } from "./seller.interface";
-import { Seller } from "./seller.model";
+import { ISeller } from './seller.interface';
+import { Seller } from './seller.model';
 
 //getAllSeller Service Section
 const getAllSellers = async () => {
@@ -17,7 +17,7 @@ const getSingleSeller = async (id: string) => {
 const updateSeller = async (id: string, payload: Partial<ISeller>) => {
   const result = await Seller.findByIdAndUpdate({ _id: id }, payload, {
     new: true,
-  })
+  });
 
   return result;
 };

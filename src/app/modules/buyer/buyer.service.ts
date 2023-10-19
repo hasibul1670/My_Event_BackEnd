@@ -17,7 +17,7 @@ const getSingleBuyer = async (id: string) => {
 const updateBuyer = async (id: string, payload: Partial<IBuyer>) => {
   const result = await Buyer.findByIdAndUpdate({ _id: id }, payload, {
     new: true,
-  })
+  });
 
   return result;
 };

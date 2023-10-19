@@ -13,13 +13,13 @@ export const OrderSchema = new Schema<IOrder, OrderModel>(
     },
     buyer: {
       type: Schema.Types.ObjectId,
-      ref:'Buyer',
+      ref: 'Buyer',
     },
   },
   {
     timestamps: true,
     toJSON: {
-      virtuals:true,
+      virtuals: true,
     },
   }
 );

@@ -28,8 +28,8 @@ const createSeller = async (
   try {
     session.startTransaction();
     const id = await generateSellerId();
-    user.id = id;//s-00001
-    seller.id = id;//s-00001
+    user.id = id; //s-00001
+    seller.id = id; //s-00001
 
     const newSeller = await Seller.create([seller], { session });
 
@@ -191,7 +191,6 @@ const orderCow = async (order: IOrder) => {
     cow.label = 'sold out';
     await cow.save();
 
-
     // Transfer money from buyer to seller
     seller.income += cow.price;
     buyer.budget -= cow.price;
@@ -209,7 +208,9 @@ const orderCow = async (order: IOrder) => {
     newOrderData = newOrder[0];
 
     // Populate the 'buyer' field in the newOrder document
-    const populatedOrder = await Order.findById(newOrderData._id).populate('buyer').populate('cow');
+    const populatedOrder = await Order.findById(newOrderData._id)
+      .populate('buyer')
+      .populate('cow');
 
     await session.commitTransaction();
     await session.endSession();
@@ -226,7 +227,6 @@ const getAllOrders = async () => {
   const result = await Order.find({}).populate('cow').populate('buyer');
   return result;
 };
-
 
 export const UserService = {
   createSeller,

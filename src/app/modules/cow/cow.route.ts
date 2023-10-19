@@ -3,10 +3,7 @@ import express from 'express';
 import { CowController } from './cow.controller';
 
 const router = express.Router();
-router.post(
-  '/create-cow',
-  CowController.createCow
-);
+router.post('/create-cow', CowController.createCow);
 
 router.get('/:id', CowController.getSingleCow);
 router.delete('/:id', CowController.deleteCow);

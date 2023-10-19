@@ -16,9 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', routes);
 
 app.get('/', async (req, res) => {
-  res.send(`Welcome to Cow Hut Application running on https://cow-hut-ten.vercel.app/`);
+  res.send(
+    `Welcome to Cow Hut Application running on https://cow-hut-ten.vercel.app/`
+  );
 });
-
 
 app.use(globalErrorHandler);
 

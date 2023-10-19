@@ -1,5 +1,3 @@
-
-
 export const sellerSearchableFields = [
   'id',
   'email',
