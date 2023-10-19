@@ -26,7 +26,10 @@ const createCow = catchAsync(async (req: Request, res: Response) => {
 //Get all Cows
 const getAllCows = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, cowFilterableFields);
-  const paginationOptions = pick(req.query, paginationFields);
+
+
+
+            const paginationOptions = pick(req.query, paginationFields);
 
   const result = await CowService.getAllCows(filters, paginationOptions);
 
