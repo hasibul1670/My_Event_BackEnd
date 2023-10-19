@@ -5,29 +5,31 @@ export type UserName = {
   firstName: string;
   lastName: string;
 };
-export type IUser = {
+
+export type IStudent = {
   id: string;
   role: string;
   password: string;
   email: string;
   name: UserName;
   gender: 'male' | 'female';
-  phoneNumber: string;
+  dateOfBirth?: string;
+  contactNo: string;
   address: string;
   profileImage?: string;
 };
 
-export type UserModel = {
-  isUserExist(
+export type StudentModel = {
+  isStudentExist(
     email: string
-  ): Promise<Pick<IUser, 'email' | 'password' | 'role'>>;
+  ): Promise<Pick<IStudent, 'email' | 'password' | 'role'>>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string
   ): Promise<boolean>;
-} & Model<IUser>;
+} & Model<IStudent>;
 
-export type IUserFilters = {
+export type IStudentFilters = {
   searchTerm?: string;
   id?: string;
   bloodGroup?: string;

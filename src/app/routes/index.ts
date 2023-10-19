@@ -1,53 +1,42 @@
 import express from 'express';
-import { BuyerRoutes } from '../modules/buyer/buyer.route';
-import { CowRoutes } from '../modules/cow/cow.route';
-import { SellerRoutes } from '../modules/seller/seller.route';
-import {
-  OrderGetRoutes,
-  OrderPostRoutes,
-  SignUpBuyerRoutes,
-  SignUpSellerRoutes,
-  UserRoutes,
-} from '../modules/users/user.route';
+
+import { AdminRoutes } from '../modules/admin/admin.route';
+import { AuthRoutes } from '../modules/auth/auth.route';
+
+import { OrderRoutes } from '../modules/cart/order.routes';
+import { ProductRoutes } from '../modules/product/product.routes';
+import { ProductRequestRoutes } from '../modules/productRequest/productRequest.routes';
+import { StudentRoutes } from '../modules/student/student.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/auth/signup',
-    route: SignUpSellerRoutes,
-  },
-
-  {
-    path: '/auth/signup',
-    route: SignUpBuyerRoutes,
-  },
-
-  {
-    path: '/cows',
-    route: CowRoutes,
+    path: '/admins',
+    route: AdminRoutes,
   },
   {
-    path: '/users',
-    route: UserRoutes,
+    path: '/products',
+    route: ProductRoutes,
   },
   {
-    path: '/buyers',
-    route: BuyerRoutes,
+    path: '/students',
+    route: StudentRoutes,
   },
   {
-    path: '/sellers',
-    route: SellerRoutes,
+    path: '/auth',
+    route: AuthRoutes,
   },
   {
-    path: '/',
-    route: OrderPostRoutes,
+    path: '/order',
+    route: OrderRoutes,
   },
   {
-    path: '/',
-    route: OrderGetRoutes,
+    path: '/productRequest',
+    route: ProductRequestRoutes,
   },
 ];
 
-moduleRoutes.forEach(route => router.use(route.path, route.route));
+moduleRoutes.forEach(r => router.use(r.path, r.route));
+
 export default router;

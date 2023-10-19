@@ -21,20 +21,9 @@ export const buildWhereConditions = (
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => {
-        if (field == 'minPrice' && typeof value === 'string') {
-          return { price: { $gte: value } };
-        }
-        if (field === 'maxPrice' && typeof value === 'string') {
-          return { price: { $lte: value } };
-        }
-        if (typeof value === 'string') {
-          return {
-            [field]: { $regex: new RegExp(value, 'i') },
-          };
-        }
-        return { [field]: value };
-      }),
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
     });
   }
 

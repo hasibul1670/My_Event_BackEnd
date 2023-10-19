@@ -2,13 +2,11 @@
 /* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
+import handleValidationError from '../../handlingError/handleValidationError';
 
 import { ZodError } from 'zod';
-import ApiError from '../../handlingError/ApiError';
-import handleValidationError from '../../handlingError/handleValidationError';
 import handleZodError from '../../handlingError/handleZodError';
-
-import { handleCastError } from '../../handlingError/handleCastError';
+import ApiError from '../../handlingError/ApiError';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   type IGenericErrorMessage = {
@@ -55,13 +53,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
           },
         ]
       : [];
-  } else if (err?.name === 'CastError') {
-    const simplefiedError = handleCastError(err);
-    statusCode = simplefiedError.statusCode;
-    message = simplefiedError.message;
-    errorMessages = simplefiedError.errorMessages;
   }
-
   res.status(statusCode).json({
     success: false,
     message,
