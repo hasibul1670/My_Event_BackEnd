@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../../config';
-import { gender } from './user.constant';
+import { role } from './user.constant';
 import { IUser, UserModel } from './user.interface';
 
 export const UserSchema = new Schema<IUser, UserModel>(
@@ -12,32 +12,29 @@ export const UserSchema = new Schema<IUser, UserModel>(
       required: true,
       unique: true,
     },
+    isBanned: {
+      type: Boolean,
+      required: true,
+    },
     role: {
       type: String,
       required: true,
+      enum: role,
     },
     email: {
       type: String,
       required: true,
       unique: true,
     },
-    name: {
-      type: {
-        firstName: {
-          type: String,
-          required: true,
-        },
-        lastName: {
-          type: String,
-          required: true,
-        },
-      },
+    firstName: {
+      type: String,
       required: true,
     },
-    gender: {
+    lastName: {
       type: String,
-      enum: gender,
+      required: true,
     },
+
     password: {
       type: String,
       required: true,

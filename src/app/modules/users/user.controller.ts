@@ -27,9 +27,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, userFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
-
   const result = await UserService.getAllUsers(filters, paginationOptions);
-
   sendUserResponse(res, ' All Users  return successfully', result);
 });
 

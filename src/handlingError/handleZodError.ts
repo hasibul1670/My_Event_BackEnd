@@ -14,7 +14,7 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
 
   return {
     statusCode,
-    message: 'UM Validation Error',
+    message: 'MY-EVENT Validation Error from Zod',
     errorMessages: errors,
   };
 };

@@ -16,7 +16,7 @@ const handleValidationError = (
   const statusCode = 400;
   return {
     statusCode,
-    message: 'Validation Error',
+    message: 'MY EVENT Validation Error from Mongoose',
     errorMessages: errors,
   };
 };

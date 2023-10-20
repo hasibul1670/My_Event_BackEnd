@@ -1,23 +1,14 @@
 import express from 'express';
+import validateRequest from '../../middlewares/validateRequest';
 import { UserController } from './user.controller';
+import { UserValidaion } from './user.validation';
 const router = express.Router();
 
-export const SignUpSellerRoutes = router.post(
-  '/seller',
-  UserController.createSeller
+router.post(
+  '/create',
+  validateRequest(UserValidaion.createUserZodSchema),
+  UserController.createUser
 );
-
-export const SignUpBuyerRoutes = router.post(
-  '/buyer',
-  UserController.createbuyer
-);
-
-export const OrderPostRoutes = router.post('/orders', UserController.orderCow);
-export const OrderGetRoutes = router.get(
-  '/orders',
-  UserController.getAllOrders
-);
-
 router.get('/:id', UserController.getSingleUser);
 router.delete('/:id', UserController.deleteUser);
 router.patch('/:id', UserController.updateUser);

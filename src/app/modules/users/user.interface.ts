@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 
-export type UserName = {
-  firstName: string;
-  lastName: string;
-};
 export type IUser = {
   id: string;
-  role: string;
+  firstName: string;
+  lastName: string;
+  isBanned: boolean;
+  role: 'user' | 'admin' | 'vendor';
   password: string;
   email: string;
-  name: UserName;
   gender: 'male' | 'female';
   phoneNumber: string;
   address: string;

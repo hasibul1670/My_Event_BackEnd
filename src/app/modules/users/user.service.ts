@@ -2,16 +2,15 @@
 /* eslint-disable no-unused-vars */
 import { StatusCodes } from 'http-status-codes';
 import config from '../../../config';
+import ApiError from '../../../handlingError/ApiError';
 import { buildWhereConditions } from '../../../helpers/buildWhereCondition';
+import { generateUserId } from '../../../helpers/generateId';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { IAdmin } from '../admin/admin.interface';
-import { Admin } from '../admin/admin.model';
-import { IUser, IUserFilters } from './user.interface';
 import { userSearchableFields } from './user.constant';
+import { IUser, IUserFilters } from './user.interface';
 import { User } from './user.model';
-import ApiError from '../../../handlingError/ApiError';
 
 const getAllUsers = async (
   filters: IUserFilters,
@@ -70,21 +69,19 @@ const getUserName = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
-const createUser = async (payload: IUser) => {
+const createUser = async (payload: IUser): Promise<Partial<IUser>> => {
   if (!payload.password) {
     payload.password = config.default_user_pass as string;
   }
+  const givenRole = payload?.role;
+
+  const id = await generateUserId(givenRole);
 
   const existingUser = await User.findOne({ email: payload?.email });
-
   if (existingUser) {
-    throw new ApiError(
-      StatusCodes.CONFLICT,
-      'Email already exists in the database'
-    );
+    throw new ApiError(StatusCodes.CONFLICT, 'User is already exists !!');
   }
-
-  const createdUser = await User.create(payload);
+  const createdUser = await User.create({ ...payload, id: id });
   const { password, ...result } = createdUser.toObject();
   return result;
 };

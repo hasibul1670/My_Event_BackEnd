@@ -6,7 +6,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { OrderRoutes } from '../modules/cart/order.routes';
 import { ProductRoutes } from '../modules/product/product.routes';
 import { ProductRequestRoutes } from '../modules/productRequest/productRequest.routes';
-import { StudentRoutes } from '../modules/student/student.route';
+import { UserRoutes } from '../modules/users/user.route';
 
 const router = express.Router();
 
@@ -20,8 +20,8 @@ const moduleRoutes = [
     route: ProductRoutes,
   },
   {
-    path: '/students',
-    route: StudentRoutes,
+    path: '/users',
+    route: UserRoutes,
   },
   {
     path: '/auth',

@@ -1,4 +1,4 @@
-export const gender = ['male', 'female'];
+export const role = ['user', 'admin', 'vendor'];
 export const bloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 export const userSearchableFields = [
