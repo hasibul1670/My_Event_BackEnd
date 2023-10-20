@@ -3,17 +3,21 @@ import express, { Application } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import morgan from 'morgan';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
-import routes from './app/routes';
+import router from './app/routes';
+import cookieParser from 'cookie-parser';
+
 const app: Application = express();
 
 app.use(cors());
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1', routes);
+// Application routes
+app.use('/api/v1', router);
 
 app.get('/', async (req, res) => {
   res.send(`Welcome to My-Event Web Application !! Server Is ON !! `);

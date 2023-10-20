@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import config from '../../../config';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
+import { CustomRequest } from '../../middlewares/auth';
 import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
 import { AuthService } from './auth.service';
 
@@ -15,16 +16,14 @@ const sendLoginResponse = async (res: Response, message: string, data: any) => {
   });
 };
 
-const loginStudent = catchAsync(async (req: Request, res: Response) => {
+const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
-  const result = await AuthService.loginStudent(loginData);
+  const result = await AuthService.loginUser(loginData);
   const { refreshToken, ...others } = result;
-
   const cookieOptions = {
     secure: config.env === 'production',
     httpOnly: true,
   };
-
   res.cookie('refreshToken', refreshToken, cookieOptions);
   sendLoginResponse(res, 'User Loggedin successfully !', others);
 });
@@ -47,9 +46,8 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const changePassword = catchAsync(async (req: Request, res: Response) => {
+const changePassword = catchAsync(async (req: CustomRequest, res: Response) => {
   const { ...passwordData } = req.body;
-
   const user = req.user;
   const result = await AuthService.changePassword(user, passwordData);
   sendResponse(res, {
@@ -60,8 +58,22 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const logoutUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log('Hello', res);
+    try {
+      res.clearCookie('refreshToken');
+    } catch (error) {
+      next(error);
+    }
+
+    sendLoginResponse(res, 'User Logout successfully !', null);
+  }
+);
+
 export const AuthController = {
-  loginStudent,
+  loginUser,
   refreshToken,
   changePassword,
+  logoutUser,
 };

@@ -4,8 +4,6 @@ import { role } from './user.constant';
 const createUserZodSchema = z.object({
   body: z.object({
     firstName: z.string(),
-    id: z.string(),
-
     lastName: z.string(),
     role: z.enum([...role] as [string, ...string[]]),
     isBanned: z.boolean(),

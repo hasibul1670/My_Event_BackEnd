@@ -1,38 +1,28 @@
-/* eslint-disable no-undef */
-
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
-import { JwtPayload, Secret } from 'jsonwebtoken';
-import config from '../../../config';
-import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { Admin } from '../admin/admin.model';
-import { Student } from '../student/student.model';
+import ApiError from '../../../handlingError/ApiError';
+import { User } from '../users/user.model';
 import {
   IChangePassword,
   ILoginUser,
   ILoginUserResponse,
+  IRefreshTokenResponse,
 } from './auth.interface';
-import ApiError from '../../../handlingError/ApiError';
+import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import config from '../../../config';
+import { JwtPayload, Secret } from 'jsonwebtoken';
 
-const loginStudent = async (
-  payload: ILoginUser
-): Promise<ILoginUserResponse> => {
+const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
+  const user = await User.findOne({ email: email }).lean();
 
-  const student = await Student.findOne({ email: email }).lean();
-
-  console.log('Hellossss', student);
-
-  if (!student) {
+  if (!user) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User does not exist');
   }
 
   let isPasswordMatched = false;
-  if (student) {
-    isPasswordMatched = await Student.isPasswordMatched(
-      password,
-      student.password
-    );
+  if (User) {
+    isPasswordMatched = await User.isPasswordMatched(password, user.password);
   }
 
   if (!isPasswordMatched) {
@@ -41,19 +31,19 @@ const loginStudent = async (
 
   // Generate an access token
   const accessToken = jwtHelpers.createToken(
-    { email },
+    { email, user },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
+
   const refreshToken = jwtHelpers.createToken(
-    { email },
+    { email, user },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string
   );
 
   return {
     email,
-    student,
     accessToken,
     refreshToken,
   };
@@ -64,60 +54,63 @@ const changePassword = async (
   payload: IChangePassword
 ): Promise<void> => {
   const { oldPassword, newPassword } = payload;
-  const userType = user?.userRole;
-
-  let isUserExist;
-
-  switch (userType) {
-    case 'admin':
-      isUserExist = await Admin.isAdminExist(user?.email);
-      break;
-    case 'student':
-      isUserExist = await Student.isStudentExist(user?.email);
-      break;
-  }
-
+  const isUserExist = await User.isUserExist(user?.email);
   if (!isUserExist) {
     throw new ApiError(StatusCodes.NOT_FOUND, 'User does not exist');
   }
-
-  // Checking OLD password
   if (
     isUserExist.password &&
-    !(await Student.isPasswordMatched(oldPassword, isUserExist.password))
+    !(await User.isPasswordMatched(oldPassword, isUserExist.password))
   ) {
     throw new ApiError(StatusCodes.UNAUTHORIZED, 'Old Password is incorrect');
   }
-
   // Hash password
   const newHashPass = await bcrypt.hash(
     newPassword,
     Number(config.default_salt_rounds as string)
   );
-
   const updatedData = {
     password: newHashPass,
   };
-
   const query = { email: user?.email };
+  await User.findOneAndUpdate(query, updatedData);
+  throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Invalid user type');
+};
 
-  // Update in DB based on user type
-  switch (userType) {
-    case 'admin':
-      await Admin.findOneAndUpdate(query, updatedData);
-      break;
-    case 'student':
-      await Student.findOneAndUpdate(query, updatedData);
-      break;
-    default:
-      throw new ApiError(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        'Invalid user type'
-      );
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret
+    );
+  } catch (err) {
+    throw new ApiError(StatusCodes.FORBIDDEN, 'Invalid Refresh Token');
   }
+  const { email } = verifiedToken;
+
+  // Check if the user is an Admin, Instructor, or Student
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User does not exist');
+  }
+
+  const newAccessToken = jwtHelpers.createToken(
+    {
+      email,
+    },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
 };
 
 export const AuthService = {
-  loginStudent,
+  loginUser,
   changePassword,
+  refreshToken,
 };

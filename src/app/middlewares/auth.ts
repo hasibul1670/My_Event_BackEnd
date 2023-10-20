@@ -4,7 +4,7 @@ import config from '../../config';
 import ApiError from '../../handlingError/ApiError';
 import { jwtHelpers } from '../../helpers/jwtHelpers';
 import { Secret } from 'jsonwebtoken';
-type CustomRequest = {
+export type CustomRequest = {
   user?: any;
 } & Request;
 
