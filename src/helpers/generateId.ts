@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { User } from '../app/modules/users/user.model';
+import { Venue } from '../app/modules/venue/venue.model';
 
 export const generateUserId = async (
   data: string
@@ -16,10 +17,20 @@ export const generateUserId = async (
     } else {
       newUserId = `V-${incrementedId}`;
     }
-
     return newUserId;
   } catch (error) {
     console.error('Error while finding the last user:', error);
+    throw error;
+  }
+};
+export const generateVenueId = async (): Promise<string | undefined> => {
+  try {
+    const venueCount = await Venue.countDocuments();
+    const incrementedId = (venueCount + 1).toString().padStart(5, '0');
+    const newUserId = `V-${incrementedId}`;
+    return newUserId;
+  } catch (error) {
+    console.error('Error while finding the last Venue:', error);
     throw error;
   }
 };

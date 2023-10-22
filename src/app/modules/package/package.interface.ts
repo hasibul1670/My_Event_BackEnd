@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-export type IProductRequest = {
+export type IPackage = {
   productDescription: string;
   quantity: number;
   requestedId: string;
@@ -8,4 +8,4 @@ export type IProductRequest = {
   status: string;
 };
 
-export type ProductRequestModel = Model<IProductRequest>;
+export type PackageModel = Model<IPackage>;

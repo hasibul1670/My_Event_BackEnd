@@ -1,10 +1,6 @@
 import { Schema, model } from 'mongoose';
-import {
-  IProductRequest,
-  ProductRequestModel,
-} from './productRequest.interface';
-
-const ProductRequestSchema = new Schema<IProductRequest>(
+import { IPackage, PackageModel } from './package.interface';
+const PackageSchema = new Schema<IPackage>(
   {
     quantity: {
       type: Number,
@@ -30,7 +26,4 @@ const ProductRequestSchema = new Schema<IProductRequest>(
   }
 );
 
-export const ProductRequest = model<IProductRequest, ProductRequestModel>(
-  'ProductRequest',
-  ProductRequestSchema
-);
+export const Package = model<IPackage, PackageModel>('Package', PackageSchema);

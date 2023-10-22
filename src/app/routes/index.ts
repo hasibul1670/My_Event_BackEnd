@@ -1,24 +1,12 @@
 import express from 'express';
 
-import { AdminRoutes } from '../modules/admin/admin.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
-
-import { OrderRoutes } from '../modules/cart/order.routes';
-import { ProductRoutes } from '../modules/product/product.routes';
-import { ProductRequestRoutes } from '../modules/productRequest/productRequest.routes';
 import { UserRoutes } from '../modules/users/user.route';
+import { VenueRoutes } from '../modules/venue/venue.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
-  {
-    path: '/admins',
-    route: AdminRoutes,
-  },
-  {
-    path: '/products',
-    route: ProductRoutes,
-  },
   {
     path: '/users',
     route: UserRoutes,
@@ -28,12 +16,8 @@ const moduleRoutes = [
     route: AuthRoutes,
   },
   {
-    path: '/order',
-    route: OrderRoutes,
-  },
-  {
-    path: '/productRequest',
-    route: ProductRequestRoutes,
+    path: '/venue',
+    route: VenueRoutes,
   },
 ];
 

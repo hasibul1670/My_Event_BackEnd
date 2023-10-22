@@ -1,6 +1,6 @@
 import { Model, Types } from 'mongoose';
 import { IBuyer } from '../buyer/buyer.interface';
-import { ICow } from '../cow/cow.interface';
+import { ICow } from '../venue/cow.interface';
 
 export type IOrder = {
   id: string;
