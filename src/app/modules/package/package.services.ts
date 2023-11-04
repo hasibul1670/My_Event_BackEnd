@@ -1,21 +1,25 @@
-import { customDateFormat } from '../../../helpers/customDateFormat';
+import { StatusCodes } from 'http-status-codes';
+import ApiError from '../../../handlingError/ApiError';
 import { IPackage } from './package.interface';
 import { Package } from './package.model';
 
 const createPackage = async (payload: IPackage): Promise<IPackage> => {
-  const date = new Date();
-  const formattedDate = customDateFormat(date);
-  const PackagePayload = { ...payload, requestedTime: formattedDate };
-  const result = await Package.create(PackagePayload);
+  const existingPackage = await Package.findOne({
+    menuName: payload?.menuName,
+  });
+  if (existingPackage) {
+    throw new ApiError(
+      StatusCodes.CONFLICT,
+      'This Package is already exists !!'
+    );
+  }
+  const result = await Package.create(payload);
   return result;
 };
 
-const getAllPackages = async (id: string) => {
+const getAllPackages = async () => {
   const allRequest = await Package.find({}).lean();
-  const filteredNotes = allRequest.filter(
-    (pr: { requestedId: string }) => pr.requestedId && pr.requestedId === id
-  );
-  return filteredNotes;
+  return allRequest;
 };
 
 const getSinglePackage = async (id: string) => {

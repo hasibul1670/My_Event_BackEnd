@@ -3,6 +3,7 @@ import express from 'express';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { UserRoutes } from '../modules/users/user.route';
 import { VenueRoutes } from '../modules/venue/venue.route';
+import { PackageRoutes } from '../modules/package/package.routes';
 
 const router = express.Router();
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/venue',
     route: VenueRoutes,
+  },
+  {
+    path: '/package',
+    route: PackageRoutes,
   },
 ];
 

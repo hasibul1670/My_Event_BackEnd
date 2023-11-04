@@ -1,11 +1,9 @@
 import { Model } from 'mongoose';
 
 export type IPackage = {
-  productDescription: string;
-  quantity: number;
-  requestedId: string;
-  requestedTime: string;
-  status: string;
+  menuName: string;
+  itmes: [];
+  price: string;
 };
 
 export type PackageModel = Model<IPackage>;

@@ -6,3 +6,11 @@
 - Express
 - Typescripts
 - MongoDB
+
+
+### docker Command
+
+  - build an image
+    - docker build -t my-event .
+  - run image
+    - docker run -it my-event

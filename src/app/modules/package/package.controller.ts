@@ -22,8 +22,7 @@ const createPackage = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllPackages = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await PackageService.getAllPackages(id);
+  const result = await PackageService.getAllPackages();
   sendPackageResponse(res, 'Packages retrieved successfully !', result);
 });
 

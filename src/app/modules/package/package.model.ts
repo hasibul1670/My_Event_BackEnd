@@ -1,24 +1,23 @@
 import { Schema, model } from 'mongoose';
 import { IPackage, PackageModel } from './package.interface';
+
 const PackageSchema = new Schema<IPackage>(
   {
-    quantity: {
-      type: Number,
-      required: true,
-    },
-    productDescription: {
+    menuName: {
       type: String,
       required: true,
     },
-    requestedId: {
-      type: String,
+    itmes: {
+      type: [
+        {
+          type: String,
+          required: true,
+        },
+      ],
     },
-    requestedTime: {
+    price: {
       type: String,
-    },
-    status: {
-      type: String,
-      default: 'pending',
+      required: true,
     },
   },
   {
